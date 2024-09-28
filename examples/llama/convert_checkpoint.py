@@ -12,7 +12,7 @@ from tensorrt_llm._utils import release_gc
 from tensorrt_llm.layers import MoeConfig
 from tensorrt_llm.logger import logger
 from tensorrt_llm.mapping import Mapping
-from tensorrt_llm.models import LLaMAForCausalLM
+from tensorrt_llm.models import MMllamaForCausalLM
 from tensorrt_llm.models.modeling_utils import QuantConfig
 from tensorrt_llm.quantization import QuantAlgo
 
@@ -306,7 +306,7 @@ def convert_and_save_meta(args, rank):
                       moe_tp_size=args.moe_tp_size,
                       moe_ep_size=args.moe_ep_size,
                       rank=rank)
-    llama = LLaMAForCausalLM.from_meta_ckpt(
+    llama = MllamaForCausalLM.from_meta_ckpt(
         args.meta_ckpt_dir,
         args.dtype,
         quant_config=args_to_quant_config(args),
@@ -332,7 +332,7 @@ def args_to_build_options(args):
 def from_cli_args(args):
     n_kv_head = args.n_kv_head if args.n_kv_head is not None else args.n_head
     config = {
-        'architecture': "LlamaForCausalLM",
+        'architecture': "MllamaForCausalLM",
         'dtype': args.dtype,
         'logits_dtype': 'float32',
         'num_hidden_layers': args.n_layer,
@@ -394,7 +394,7 @@ def convert_and_save_hf(args):
                           moe_tp_size=args.moe_tp_size,
                           moe_ep_size=args.moe_ep_size)
         # TODO: support moe quantization for tp + ep
-        LLaMAForCausalLM.quantize(
+        MllamaForCausalLM.quantize(
             args.model_dir,
             args.output_dir,
             dtype=args.dtype,
@@ -414,7 +414,7 @@ def convert_and_save_hf(args):
                               moe_tp_size=args.moe_tp_size,
                               moe_ep_size=args.moe_ep_size)
             tik = time.time()
-            llama = LLaMAForCausalLM.from_hugging_face(
+            llama = MllamaForCausalLM.from_hugging_face(
                 model_dir,
                 args.dtype,
                 mapping=mapping,
