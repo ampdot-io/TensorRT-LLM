@@ -12,7 +12,7 @@ from tensorrt_llm._utils import release_gc
 from tensorrt_llm.layers import MoeConfig
 from tensorrt_llm.logger import logger
 from tensorrt_llm.mapping import Mapping
-from tensorrt_llm.models import MMllamaForCausalLM
+from tensorrt_llm.models import MllamaForCausalLM
 from tensorrt_llm.models.modeling_utils import QuantConfig
 from tensorrt_llm.quantization import QuantAlgo
 
